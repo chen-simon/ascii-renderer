@@ -7,4 +7,5 @@ def load_scene() -> None:
 
 
 if __name__ == '__main__':
-    wf.Wavefront('objects/bulbasaur/bulbasaur.obj')
+    teapot = wf.Wavefront('objects/teapot/teapot.obj')
+    teapot.parse()
