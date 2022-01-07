@@ -50,7 +50,7 @@ class Vector3 {
          */
         static Vector3 cross(Vector3 v1, Vector3 v2) {
             float x = v1.y * v2.z - v1.z * v2.y;
-            float y = v1.x * v2.z - v1.z * v2.x;
+            float y = v1.z * v2.x - v1.x * v2.z;
             float z = v1.x * v2.y - v1.y * v2.x;
 
             return Vector3(x, y, z);
@@ -111,9 +111,16 @@ class Tri {
             this->p3 = p3;
         }
 
+        /**
+         * @brief Return the surface normal of the tri
+         */
         Vector3 norm() {
-            Vector3 d1 = Vector3::minus(p1, p2);
-            Vector3 d2 = Vector3::minus(p2, p3);
+            Vector3 d1 = Vector3::minus(p2, p1);
+            Vector3 d2 = Vector3::minus(p3, p1);
+            
+            Vector3 norm = Vector3::cross(d1, d2);
+            norm.normalize();
+            return norm;
         }
 };
 
@@ -126,24 +133,5 @@ class Object {
 
         Object(vector<Tri> tris) {
             this->tris = tris;
-        }
-};
-
-/**
- * @brief The camera viewport
- */
-class Camera {
-    public:
-        Vector3 position;
-        Vector3 rotation;
-        float width;
-        float height;
-    
-        Camera() {
-            // Default camera values
-            position = Vector3();
-            rotation = Vector3();
-            width = 10;
-            height = 3;
         }
 };

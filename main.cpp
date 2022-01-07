@@ -4,16 +4,14 @@
 using namespace std;
 
 int main() {
-    Vector3 point(1.0f, 2.0f, 3.0f);
-    Vector3 p2 = Vector3::times(-1.0f, point);
-    Vector3 p3 = Vector3::minus(point, p2);
+    Vector3 p1(1.0f, 0.0f, 0.0f);
+    Vector3 p2(0.0f, 2.0f, 0.0f);
+    Vector3 p3(0.0f, 0.0f, 1.0f);
 
-    point.print();
-    cout << point.norm();
-    point.normalize();
-    cout << point.norm();
-    point.print();
-    p3.print();
+    Tri tri(p1, p2, p3);
+    Vector3 norm = tri.norm();
+    norm.print();
+
     string str;
     cin >> str;
     return 0;
