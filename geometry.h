@@ -15,6 +15,10 @@ class Vector3 {
         float z;
 
         // Static vector operations
+
+        /**
+         * @brief Add v2 to v1
+         */
         static Vector3 add(Vector3 v1, Vector3 v2) {
             float x = v1.x + v2.x;
             float y = v1.y + v2.y;
@@ -23,6 +27,9 @@ class Vector3 {
             return Vector3(x, y, z); 
         }
 
+        /**
+         * @brief Returns v1 scaled by a scalar
+         */
         static Vector3 times(float scalar, Vector3 v1) {
             float x = scalar * v1.x;
             float y = scalar * v1.y;
@@ -31,13 +38,41 @@ class Vector3 {
             return Vector3(x, y, z); 
         }
 
+        /**
+         * @brief Subtract v2 from v1
+         */
         static Vector3 minus(Vector3 v1, Vector3 v2) {
             return add(v1, times(-1, v2)); 
         }
 
+        /**
+         * @brief Return the cross product of two vectors
+         */
+        static Vector3 cross(Vector3 v1, Vector3 v2) {
+            float x = v1.y * v2.z - v1.z * v2.y;
+            float y = v1.x * v2.z - v1.z * v2.x;
+            float z = v1.x * v2.y - v1.y * v2.x;
+
+            return Vector3(x, y, z);
+        }
+
         // Instance vector operations
+
+        /**
+         * @brief Returns the norm of the vector
+         */
         float norm() {
             return sqrt(x * x + y * y + z * z);
+        }
+
+        /**
+         * @brief Normalize the vector to a unit vector
+         */
+        void normalize() {
+            float n = norm();
+            x = x / n;
+            y = y / n;
+            z = z / n;
         }
 
         /**
