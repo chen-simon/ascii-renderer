@@ -96,6 +96,45 @@ class Vector3 {
         }
 };
 
+
+/**
+ * @brief A line in R3
+ */
+class Line {
+    public:
+        Vector3 d;
+        Vector3 p;
+    
+        Line(Vector3 d, Vector3 p) {
+            this->d = d;
+            this->p = p;
+        }
+};
+
+
+/**
+ * @brief A plane in R3
+ */
+class Plane {
+    public:
+        Vector3 d1;
+        Vector3 d2;
+        Vector3 p;
+
+        /**
+         * @brief Return a tangent plane given a normal vector
+         */
+        static Plane getTangentPlane(Vector3 norm) {
+            
+        }
+
+        Plane(Vector3 d1, Vector3 d2, Vector3 p) {
+            this->d1 = d1;
+            this->d2 = d2;
+            this->p = p;
+        }
+};
+
 /**
  * @brief A triangular face in R3
  */
