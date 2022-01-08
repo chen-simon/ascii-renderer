@@ -1,5 +1,27 @@
 #include "geometry.h"
 
+// The light levels of a surface in ASCII-Characters
+const static char LIGHT_LEVELS [] = {'@', '#', 'X', 'k', 'O', 'z', '/', '-', ':', '~', '`'};
+
+/**
+ * @brief A 2-dimensional vector (used for rendering on screen)
+ */
+class Vector2 {
+    public:
+        float x;
+        float y;
+
+        Vector2() {
+            x = 0;
+            y = 0;
+        }
+
+        Vector2(float x, float y) {
+            this->x = x;
+            this->y = y;
+        }
+};
+
 /**
  * @brief The camera viewport
  */
@@ -35,9 +57,32 @@ class Camera {
         }
 
         /**
+         * @brief Get the light level of a surface given its norm
+         */
+        char getLightLevel(Vector3 norm) {
+            
+        }
+
+        /**
          * @brief Draws the triangle to the viewport
          */
         void drawTri(Tri tri) {
-            
+            Vector3 n = tri.norm();
+
+            // Guard clause to prevent drawing faces in the wrong direction
+            if (Vector3::dot(rotation, n) <= 0) {
+                return;
+            }
+
+            for (int i = 0; i < 3; i++) {
+                Line line(Vector3::minus(tri.p[i], position), position);
+                Vector3 point = viewport.lineIntersection(line);
+
+                // Explicit cast to xy-plane
+            }
+        }
+
+        void scanlineRender() {
+
         }
 };

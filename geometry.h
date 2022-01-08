@@ -151,7 +151,6 @@ class Plane {
             }
             Vector3 b = Vector3::cross(a, line.d);
             
-
             return Plane(a, b, line.p);
         }
 
