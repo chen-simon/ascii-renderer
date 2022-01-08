@@ -24,11 +24,12 @@ int main() {
     ee.print();
 
     cout << endl;
-    
-    Vector3 p6(1.0f, 2.0f, 3.0f);
-    Vector3 p7(2.0f, 3.0f, -1.0f);
-    Vector3 eee = Vector3::cross(p6, p7);
-    eee.print();
+
+    Line line2(Vector3(-1.0f, 1.0f, 5.0f), Vector3(3.0f, 2.0f, 5.0f));
+    Plane plane2(Vector3(0.0f, 1.0f, -0.2f), Vector3(5.2f, 0.2f, 0.1f), Vector3(3.0f, 27.0f, 0.0f));
+
+    Vector3 intersection = plane2.lineIntersection(line2);
+    intersection.print();
 
     string str;
     cin >> str;

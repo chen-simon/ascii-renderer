@@ -45,6 +45,13 @@ class Vector3 {
             return add(v1, times(-1, v2)); 
         }
 
+                /**
+         * @brief Return the dot product of two vectors
+         */
+        static float dot(Vector3 v1, Vector3 v2) {
+            return v1.x * v1.x + v1.y * v2.y + v1.z * v2.z;
+        }
+
         /**
          * @brief Return the cross product of two vectors
          */
@@ -53,9 +60,7 @@ class Vector3 {
             float y = v1.z * v2.x - v1.x * v2.z;
             float z = v1.x * v2.y - v1.y * v2.x;
 
-            cout << x << " " << y << " " << z << endl;
-            Vector3 sol = Vector3(x, y, z);
-            return sol;
+            return Vector3(x, y, z);
         }
 
         // Instance vector operations
@@ -144,9 +149,28 @@ class Plane {
                 // General case
                 a.z = -line.d.y / line.d.z;
             }
-            Vector3 b = Vector3::cross(a, line.d);  // I literally don't understand why this doesn't work WTH??
+            Vector3 b = Vector3::cross(a, line.d);
+            
 
             return Plane(a, b, line.p);
+        }
+
+        /**
+         * @brief Return a normal vector of the plane
+         */
+        Vector3 norm() {
+            return Vector3::cross(d1, d2);
+        }
+
+        /**
+         * @brief 
+         */
+        Vector3 lineIntersection(Line line) {
+            Vector3 n = norm();
+            float t = (Vector3::dot(n, line.p) - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z) / 
+                (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
+            
+            return Vector3::add(line.p, Vector3::times(t, line.d));
         }
 
         Plane() {
