@@ -53,7 +53,9 @@ class Vector3 {
             float y = v1.z * v2.x - v1.x * v2.z;
             float z = v1.x * v2.y - v1.y * v2.x;
 
-            return Vector3(x, y, z);
+            cout << x << " " << y << " " << z << endl;
+            Vector3 sol = Vector3(x, y, z);
+            return sol;
         }
 
         // Instance vector operations
@@ -70,6 +72,11 @@ class Vector3 {
          */
         void normalize() {
             float n = norm();
+
+            if (n == 0) {
+                return;
+            }
+
             x = x / n;
             y = y / n;
             z = z / n;
@@ -89,7 +96,7 @@ class Vector3 {
             z = 0.0f;
         }
 
-        Vector3(int x, int y, int z) {
+        Vector3(float x, float y, float z) {
             this->x = x;
             this->y = y;
             this->z = z;
@@ -105,6 +112,10 @@ class Line {
         Vector3 d;
         Vector3 p;
     
+        static Line getLine(Vector3 p1, Vector3 p2) {
+            return Line(Vector3::minus(p2, p1), p1);
+        }
+
         Line(Vector3 d, Vector3 p) {
             this->d = d;
             this->p = p;
@@ -124,8 +135,24 @@ class Plane {
         /**
          * @brief Return a tangent plane given a normal vector
          */
-        static Plane getTangentPlane(Vector3 norm) {
-            
+        static Plane getTangentPlane(Line line) {
+            Vector3 a = Vector3(0.0f, 1.0f, 0.0f);
+            // Edge case
+            if (line.d.z == 0) {
+                a = Vector3(0.0f, 0.0f, 1.0f);
+            } else {
+                // General case
+                a.z = -line.d.y / line.d.z;
+            }
+            Vector3 b = Vector3::cross(a, line.d);  // I literally don't understand why this doesn't work WTH??
+
+            return Plane(a, b, line.p);
+        }
+
+        Plane() {
+            d1 = Vector3(1.0f, 0.0f, 0.0f);
+            d2 = Vector3(0.0f, 1.0f, 0.0f);
+            p = Vector3(0.0f, 0.0f, 0.0f);
         }
 
         Plane(Vector3 d1, Vector3 d2, Vector3 p) {
@@ -140,22 +167,20 @@ class Plane {
  */
 class Tri {
     public:
-        Vector3 p1;
-        Vector3 p2;
-        Vector3 p3;
+        Vector3 p[3];
     
         Tri(Vector3 p1, Vector3 p2, Vector3 p3) {
-            this->p1 = p1;
-            this->p2 = p2;
-            this->p3 = p3;
+            p[0] = p1;
+            p[1] = p2;
+            p[2] = p3;
         }
 
         /**
          * @brief Return the surface normal of the tri
          */
         Vector3 norm() {
-            Vector3 d1 = Vector3::minus(p2, p1);
-            Vector3 d2 = Vector3::minus(p3, p1);
+            Vector3 d1 = Vector3::minus(p[1], p[0]);
+            Vector3 d2 = Vector3::minus(p[2], p[0]);
             
             Vector3 norm = Vector3::cross(d1, d2);
             norm.normalize();
