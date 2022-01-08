@@ -20,6 +20,11 @@ class Vector2 {
             this->x = x;
             this->y = y;
         }
+
+        Vector2(Vector3 v) {
+            x = v.x;
+            y = v.y;
+        }
 };
 
 /**
@@ -75,10 +80,13 @@ class Camera {
             }
 
             for (int i = 0; i < 3; i++) {
+                // Project world point to view plane
                 Line line(Vector3::minus(tri.p[i], position), position);
                 Vector3 point = viewport.lineIntersection(line);
 
-                // Explicit cast to xy-plane
+                // Implicit cast to xy-plane
+                Vector2 screenPoint(point);
+                
             }
         }
 

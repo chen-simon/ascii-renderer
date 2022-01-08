@@ -162,12 +162,20 @@ class Plane {
         }
 
         /**
-         * @brief 
+         * @brief Return the intersection point between a line and a plane;
          */
         Vector3 lineIntersection(Line line) {
             Vector3 n = norm();
-            float t = (Vector3::dot(n, line.p) - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z) / 
-                (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
+            float numerator = (Vector3::dot(n, line.p) - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z);
+            float denominator = (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
+
+            // Edge case
+            if (denominator == 0) {
+                return Vector3();
+            }
+
+            // Solve for t
+            float t = numerator / denominator;
             
             return Vector3::add(line.p, Vector3::times(t, line.d));
         }
