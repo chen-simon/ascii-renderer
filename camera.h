@@ -35,10 +35,8 @@ class Vector2 {
 /**
  * @brief The camera viewport
  */
-class Camera {
+class Camera : public Object {
     public:
-        Vector3 position;
-        Vector3 rotation;
         float focalLength;
         float width;
         float height;
@@ -66,15 +64,17 @@ class Camera {
                             Vector3(0.0f, 0.0f, -9.0f));
         }
 
+        // Scanline Rendering
+        
         /**
          * @brief Get the light level of a surface given its norm
          */
         char getLightLevel(Vector3 norm) {
-            
+            return '@';
         }
 
         /**
-         * @brief Draws the triangle to the viewport
+         * @brief Draw the triangle to the viewport
          */
         void drawTri(Tri tri) {
             Vector3 n = tri.norm();
@@ -107,10 +107,26 @@ class Camera {
             // order by height
             swapPoints(p, 0, 1);
             swapPoints(p, 1, 2);
-            
+
+            // Setup scanline bounds
+            Vector2 line = getScreenLine(p[0], p[2]);
+            Vector2 p4(line.x * p[1].y + line.y, p[1].y);
+
             // draw top half
+            Vector2 startLine = line; 
+            Vector2 endLine = getScreenLine(p[0], p[1]);
+            if (p4.x < p[1].x) {
+                startLine = endLine;
+                endLine = line;
+            }
 
             // draw bottom half
+            startLine = line; 
+            endLine = getScreenLine(p[1], p[2]);
+            if (p4.x < p[1].x) {
+                startLine = endLine;
+                endLine = line;
+            }
         }
 
         /**
@@ -122,5 +138,15 @@ class Camera {
                 p[a] = p[b];
                 p[b] = temp;
             }
+        }
+
+        /**
+         * @brief Return (m, b) from x = my + b form between the 2 points
+         */
+        Vector2 getScreenLine(Vector2 p1, Vector2 p2) {
+            float m = p2.y != p1.y ? (p2.x - p1.x) / (p2.y - p1.y) : 0;
+            float b = p2.x - m * p1.y;
+
+            return Vector2(m, b);
         }
 };

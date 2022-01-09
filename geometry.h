@@ -224,7 +224,13 @@ class Tri {
  */
 class Object {
     public:
+        Vector3 position;
+        Vector3 rotation;
         vector<Tri> tris;
+
+        Object() {
+            
+        }
 
         Object(vector<Tri> tris) {
             this->tris = tris;
