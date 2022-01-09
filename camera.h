@@ -1,4 +1,5 @@
 #include "geometry.h"
+using namespace std;
 
 // The light levels of a surface in ASCII-Characters
 const static char LIGHT_LEVELS [] = {'@', '#', 'X', 'k', 'O', 'z', '/', '-', ':', '~', '`'};
@@ -10,6 +11,10 @@ class Vector2 {
     public:
         float x;
         float y;
+
+        Vector2 copy() {
+            return Vector2(x, y);
+        }
 
         Vector2() {
             x = 0;
@@ -79,18 +84,43 @@ class Camera {
                 return;
             }
 
+            // Screen points
+            Vector2 p[3];
+
             for (int i = 0; i < 3; i++) {
                 // Project world point to view plane
                 Line line(Vector3::minus(tri.p[i], position), position);
                 Vector3 point = viewport.lineIntersection(line);
 
                 // Implicit cast to xy-plane
-                Vector2 screenPoint(point);
-                
+                p[i] = Vector2(point);
             }
+
+            // Render screen points
+            scanlineRender(p);
         }
 
-        void scanlineRender() {
+        /**
+         * @brief Draw the a triangle given 3 viewplane coordinates
+         */
+        void scanlineRender(Vector2 p[]) {
+            // order by height
+            swapPoints(p, 0, 1);
+            swapPoints(p, 1, 2);
+            
+            // draw top half
 
+            // draw bottom half
+        }
+
+        /**
+         * @brief Swap two 2D points given their viewport height by ascending
+         */
+        void swapPoints(Vector2 p[], int a, int b) {
+            if (p[a].y < p[b].y) {
+                Vector2 temp = p[a].copy();
+                p[a] = p[b];
+                p[b] = temp;
+            }
         }
 };
