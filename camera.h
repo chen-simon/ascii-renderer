@@ -42,6 +42,7 @@ class Camera : public Object {
         float height;
 
         Plane viewport;
+        char screen[24][80];
     
         /**
          * @brief Calculate the viewport plane.
@@ -126,6 +127,17 @@ class Camera : public Object {
             if (p4.x < p[1].x) {
                 startLine = endLine;
                 endLine = line;
+            }
+        }
+
+        /**
+         * @brief Scanline horizontally across two lines, filling in a triangle with the light level char to the screen
+         */
+        void drawScreenValuesAcross(Vector2 startLine, Vector2 endLine, float startHeight, float endHeight, char lightLevel) {
+            for (int i = min(startHeight, height / 2); i < max(endHeight, -height / 2); i++) {
+                for (int j = max(startLine.x * i + startLine.y, width / 2); j < min(endLine.x * i + endLine.y, -width / 2); j++) {
+                    screen[i][j] = lightLevel;
+                }
             }
         }
 
