@@ -63,6 +63,8 @@ class Camera : public Object {
             viewport = Plane(Vector3(1.0f, 0.0f, 0.0f),
                             Vector3(0.0f, 1.0f, 0.0f),
                             Vector3(0.0f, 0.0f, -9.0f));
+
+            clearScreen();
         }
 
         // Scanline Rendering
@@ -134,9 +136,9 @@ class Camera : public Object {
          * @brief Scanline horizontally across two lines, filling in a triangle with the light level char to the screen
          */
         void drawScreenValuesAcross(Vector2 startLine, Vector2 endLine, float startHeight, float endHeight, char lightLevel) {
-            for (int i = min(startHeight, height / 2); i < max(endHeight, -height / 2); i++) {
+            for (int i = min((int)floor(startHeight), 14); i < max(endHeight, -15); i++) {
                 for (int j = max(startLine.x * i + startLine.y, width / 2); j < min(endLine.x * i + endLine.y, -width / 2); j++) {
-                    screen[i][j] = lightLevel;
+                    screen[i - 14][j] = lightLevel;
                 }
             }
         }
@@ -168,8 +170,21 @@ class Camera : public Object {
         void renderScreen() {
             for (int i = 0; i < 29; i++) {
                 for (int j = 0; j < 120; j++) {
-                    cout << 'i';
+                    cout << screen[i][j];
+                }
+            }
+
+            
+        }
+
+        /**
+         * @brief Renitialize screen with spaces.
+         */
+        void clearScreen() {
+            for (int i = 0; i < 29; i++) {
+                for (int j = 0; j < 120; j++) {
+                    screen[i][j] = ' ';
                 }
             }
         }
-};
+    };
