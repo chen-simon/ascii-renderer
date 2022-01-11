@@ -2,6 +2,10 @@
 #include <vector>
 #include <math.h>
 
+// Include Guard
+#ifndef GEOMETRY
+#define GEOMETRY
+
 using namespace std;
 using std::vector;
 
@@ -236,3 +240,5 @@ class Object {
             this->tris = tris;
         }
 };
+
+#endif /* GEOMETRY */

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "geometry.h"
+#include "camera.h"
 using namespace std;
 
 int main() {
@@ -30,6 +31,8 @@ int main() {
 
     // Vector3 intersection = plane2.lineIntersection(line2);
     // intersection.print();
+    Camera camera = Camera();
+    camera.renderScreen();
 
     string str;
     cin >> str;

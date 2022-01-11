@@ -42,7 +42,7 @@ class Camera : public Object {
         float height;
 
         Plane viewport;
-        char screen[24][80];
+        char screen[29][120];
     
         /**
          * @brief Calculate the viewport plane.
@@ -160,5 +160,16 @@ class Camera : public Object {
             float b = p2.x - m * p1.y;
 
             return Vector2(m, b);
+        }
+
+        /**
+         * @brief Print the current screen to the console window.
+         */
+        void renderScreen() {
+            for (int i = 0; i < 29; i++) {
+                for (int j = 0; j < 120; j++) {
+                    cout << 'i';
+                }
+            }
         }
 };
