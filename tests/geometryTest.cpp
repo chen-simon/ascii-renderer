@@ -3,6 +3,7 @@
 
 #include "../src/geometry.hpp"
 
+/********** Vector Operations **********/
 TEST_CASE("Vector addition", "[vector_operations]")
 {
     Vector3 v1(1, 1, 1);
@@ -44,7 +45,7 @@ TEST_CASE("Vector cross product", "[vector_operations]")
     Vector3 v1(4, 0, 5);
     Vector3 v2(1, 2, 3);
 
-    Vector3 expected(10, -7, 8);
+    Vector3 expected(-10, -7, 8);
     REQUIRE(Vector3::cross(v1, v2) == expected);
 }
 
@@ -54,4 +55,13 @@ TEST_CASE("Vector norm", "[vector_operations]")
 
     double expected = 7;
     REQUIRE(v1.norm() == expected);
+}
+
+TEST_CASE("Vector normalize", "[vector_operations]")
+{
+    Vector3 v1(3.7, 0, 0);
+
+    v1.normalize();
+    Vector3 expected(1, 0, 0);
+    REQUIRE(v1 == expected);
 }

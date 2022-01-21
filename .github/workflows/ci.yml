@@ -13,5 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: setup
+      run: chmod +x tests/run_tests.sh
     - name: run tests
       run: tests/run_tests.sh

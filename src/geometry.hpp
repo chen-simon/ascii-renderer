@@ -76,6 +76,23 @@ class Vector3
         }
 
         /**
+         * @brief Cast to string
+         */
+        operator std::string() const
+        {
+            return "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+        }
+
+        /**
+         * @brief Output to cout override
+         */
+        friend ostream & operator<<(ostream & out, const Vector3& v) 
+        { 
+            out << "(" + std::to_string(v.x) + ", " + std::to_string(v.y) + ", " + std::to_string(v.z) + ")";
+            return out;
+        }
+ 
+        /**
          * @brief Return the cross product of two vectors
          */
         static Vector3 cross(Vector3 v1, Vector3 v2)
@@ -112,15 +129,6 @@ class Vector3
             x = x / n;
             y = y / n;
             z = z / n;
-        }
-
-
-        /**
-         * @brief Cast to string
-         */
-        std::ostream & operator<<(std::ostream & Str, Object const & v){
-            Str << "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
-            return Str;
         }
 
         // Constructors

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Setup
-mkdir tests/temp
+mkdir -p tests/temp
 
 # Build
 g++ -o tests/temp/geometryTest tests/geometryTest.cpp
