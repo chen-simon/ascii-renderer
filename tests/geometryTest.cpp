@@ -39,3 +39,19 @@ TEST_CASE("Vector dot product", "[vector_operations]")
     REQUIRE(v1 * v2 == expected);
 }
 
+TEST_CASE("Vector cross product", "[vector_operations]")
+{
+    Vector3 v1(4, 0, 5);
+    Vector3 v2(1, 2, 3);
+
+    Vector3 expected(10, -7, 8);
+    REQUIRE(Vector3::cross(v1, v2) == expected);
+}
+
+TEST_CASE("Vector norm", "[vector_operations]")
+{
+    Vector3 v1(2, 3, 6);
+
+    double expected = 7;
+    REQUIRE(v1.norm() == expected);
+}

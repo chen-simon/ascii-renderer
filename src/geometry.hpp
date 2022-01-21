@@ -114,12 +114,13 @@ class Vector3
             z = z / n;
         }
 
+
         /**
-         * @brief Print the vector to console
+         * @brief Cast to string
          */
-        void print()
-        {
-            cout << "(" << x << ", " << y << ", "  << z << ")" << endl;
+        std::ostream & operator<<(std::ostream & Str, Object const & v){
+            Str << "(" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + ")";
+            return Str;
         }
 
         // Constructors
