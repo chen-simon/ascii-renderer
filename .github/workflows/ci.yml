@@ -1,0 +1,21 @@
+name: Unit Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: compile
+      run: g++ -o tests/temp/geometryTest tests/geometryTest.cpp
+    - name: test
+      run: tests/temp/geometryTest
+    - name: cleanup
+      run: rm tests/temp/geometryTest
