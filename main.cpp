@@ -4,7 +4,8 @@
 #include "camera.h"
 using namespace std;
 
-int main() {
+int main()
+{
     // Vector3 p1(1.0f, 0.0f, 0.0f);
     // Vector3 p2(0.0f, 2.0f, 0.0f);
     // Vector3 p3(0.0f, 0.0f, 1.0f);
