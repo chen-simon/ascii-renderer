@@ -24,7 +24,7 @@ class Vector3
         /**
          * @brief Add v2 to v1
          */
-        static Vector3 add(Vector3 v1, Vector3 v2)
+        friend Vector3 operator+(const Vector3 v1, const Vector3 v2)
         {
             float x = v1.x + v2.x;
             float y = v1.y + v2.y;
@@ -36,7 +36,7 @@ class Vector3
         /**
          * @brief Returns v1 scaled by a scalar
          */
-        static Vector3 times(float scalar, Vector3 v1)
+        friend Vector3 operator*(const float scalar, const Vector3 v1)
         {
             float x = scalar * v1.x;
             float y = scalar * v1.y;
@@ -48,17 +48,22 @@ class Vector3
         /**
          * @brief Subtract v2 from v1
          */
-        static Vector3 minus(Vector3 v1, Vector3 v2)
+        friend Vector3 operator-(const Vector3 v1, const Vector3 v2)
         {
-            return add(v1, times(-1, v2)); 
+            return v1 + (-1 * v2);
         }
 
-                /**
+        /**
          * @brief Return the dot product of two vectors
          */
-        static float dot(Vector3 v1, Vector3 v2)
+        friend float operator*(const Vector3 v1, const Vector3 v2)
         {
             return v1.x * v1.x + v1.y * v2.y + v1.z * v2.z;
+        }
+
+        friend bool operator==(const Vector3 &v1, const Vector3 &v2)
+        {
+            return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
         }
 
         /**
@@ -136,7 +141,7 @@ class Line
     
         static Line getLine(Vector3 p1, Vector3 p2)
         {
-            return Line(Vector3::minus(p2, p1), p1);
+            return Line(p2 - p1, p1);
         }
 
         Line(Vector3 d, Vector3 p)
@@ -192,7 +197,7 @@ class Plane
         Vector3 lineIntersection(Line line)
         {
             Vector3 n = norm();
-            float numerator = (Vector3::dot(n, line.p) - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z);
+            float numerator = (n * line.p - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z);
             float denominator = (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
 
             // Edge case
@@ -204,7 +209,7 @@ class Plane
             // Solve for t
             float t = numerator / denominator;
             
-            return Vector3::add(line.p, Vector3::times(t, line.d));
+            return line.p + t * line.d;
         }
 
         Plane()
@@ -242,8 +247,8 @@ class Tri
          */
         Vector3 norm()
         {
-            Vector3 d1 = Vector3::minus(p[1], p[0]);
-            Vector3 d2 = Vector3::minus(p[2], p[0]);
+            Vector3 d1 = p[1] - p[0];
+            Vector3 d2 = p[2] - p[0];
             
             Vector3 norm = Vector3::cross(d1, d2);
             norm.normalize();

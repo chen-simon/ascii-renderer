@@ -1,4 +1,4 @@
-#include "geometry.h"
+#include "geometry.hpp"
 using namespace std;
 
 // The light levels of a surface in ASCII-Characters
@@ -55,8 +55,8 @@ class Camera : public Object
          */
         void calculateViewport()
         {
-                Plane tangentPlane = Plane::getTangentPlane(Line(rotation, position));
-            tangentPlane.p = Vector3::add(position, Vector3::times(focalLength, rotation));
+            Plane tangentPlane = Plane::getTangentPlane(Line(rotation, position));
+            tangentPlane.p = position + focalLength * rotation;
             viewport = tangentPlane;
         }
 
@@ -93,7 +93,7 @@ class Camera : public Object
             Vector3 n = tri.norm();
 
             // Guard clause to prevent drawing faces in the wrong direction
-            if (Vector3::dot(rotation, n) <= 0)
+            if (rotation * n <= 0)
             {
                 return;
             }
@@ -104,7 +104,7 @@ class Camera : public Object
             for (int i = 0; i < 3; i++)
             {
                 // Project world point to view plane
-                Line line(Vector3::minus(tri.p[i], position), position);
+                Line line(tri.p[i] - position, position);
                 Vector3 point = viewport.lineIntersection(line);
 
                 // Implicit cast to xy-plane

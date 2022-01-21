@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
-#include "geometry.h"
-#include "camera.h"
+#include "geometry.hpp"
+#include "camera.hpp"
 using namespace std;
 
 int main()
