@@ -13,8 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: compile
+    - name: setup temp folder
       run: mkdir tests/temp
+    - name: compile
       run: g++ -o tests/temp/geometryTest tests/geometryTest.cpp
     - name: test
       run: tests/temp/geometryTest
