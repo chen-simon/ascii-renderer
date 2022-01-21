@@ -15,9 +15,9 @@ using std::vector;
 class Vector3
 {
     public:
-        float x;
-        float y;
-        float z;
+        double x;
+        double y;
+        double z;
 
         // Static vector operations
 
@@ -26,9 +26,9 @@ class Vector3
          */
         friend Vector3 operator+(const Vector3 v1, const Vector3 v2)
         {
-            float x = v1.x + v2.x;
-            float y = v1.y + v2.y;
-            float z = v1.z + v2.z;
+            double x = v1.x + v2.x;
+            double y = v1.y + v2.y;
+            double z = v1.z + v2.z;
 
             return Vector3(x, y, z); 
         }
@@ -36,11 +36,11 @@ class Vector3
         /**
          * @brief Returns v1 scaled by a scalar
          */
-        friend Vector3 operator*(const float scalar, const Vector3 v1)
+        friend Vector3 operator*(const double scalar, const Vector3 v1)
         {
-            float x = scalar * v1.x;
-            float y = scalar * v1.y;
-            float z = scalar * v1.z;
+            double x = scalar * v1.x;
+            double y = scalar * v1.y;
+            double z = scalar * v1.z;
 
             return Vector3(x, y, z); 
         }
@@ -56,14 +56,23 @@ class Vector3
         /**
          * @brief Return the dot product of two vectors
          */
-        friend float operator*(const Vector3 v1, const Vector3 v2)
+        friend double operator*(const Vector3 v1, const Vector3 v2)
         {
-            return v1.x * v1.x + v1.y * v2.y + v1.z * v2.z;
+            return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
         }
 
-        friend bool operator==(const Vector3 &v1, const Vector3 &v2)
+        /**
+        * @brief Return whether or not the vectors are equal
+        */
+        friend bool operator==(const Vector3 v1, const Vector3 v2)
         {
-            return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+            static double epsilon = 0.005;
+            Vector3 diff = v1 - v2;
+            bool x = diff.x < epsilon && diff.x > -epsilon;
+            bool y = diff.y < epsilon && diff.y > -epsilon;
+            bool z = diff.z < epsilon && diff.z > -epsilon;
+
+            return x && y && z;
         }
 
         /**
@@ -71,9 +80,9 @@ class Vector3
          */
         static Vector3 cross(Vector3 v1, Vector3 v2)
         {
-            float x = v1.y * v2.z - v1.z * v2.y;
-            float y = v1.z * v2.x - v1.x * v2.z;
-            float z = v1.x * v2.y - v1.y * v2.x;
+            double x = v1.y * v2.z - v1.z * v2.y;
+            double y = v1.z * v2.x - v1.x * v2.z;
+            double z = v1.x * v2.y - v1.y * v2.x;
 
             return Vector3(x, y, z);
         }
@@ -83,7 +92,7 @@ class Vector3
         /**
          * @brief Returns the norm of the vector
          */
-        float norm()
+        double norm()
         {
             return sqrt(x * x + y * y + z * z);
         }
@@ -93,7 +102,7 @@ class Vector3
          */
         void normalize()
         {
-            float n = norm();
+            double n = norm();
 
             if (n == 0)
         {
@@ -121,7 +130,7 @@ class Vector3
             z = 0.0f;
         }
 
-        Vector3(float x, float y, float z)
+        Vector3(double x, double y, double z)
         {
             this->x = x;
             this->y = y;
@@ -197,8 +206,8 @@ class Plane
         Vector3 lineIntersection(Line line)
         {
             Vector3 n = norm();
-            float numerator = (n * line.p - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z);
-            float denominator = (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
+            double numerator = (n * line.p - n.x * line.p.x - n.y * line.p.y - n.z * line.p.z);
+            double denominator = (n.x * line.d.x + n.y * line.d.y + n.z * line.d.z);
 
             // Edge case
             if (denominator == 0)
@@ -207,7 +216,7 @@ class Plane
             }
 
             // Solve for t
-            float t = numerator / denominator;
+            double t = numerator / denominator;
             
             return line.p + t * line.d;
         }

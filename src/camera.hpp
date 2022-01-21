@@ -10,8 +10,8 @@ const static char LIGHT_LEVELS [] = {'@', '#', 'X', 'k', 'O', 'z', '/', '-', ':'
 class Vector2
 {
     public:
-        float x;
-        float y;
+        double x;
+        double y;
 
         Vector2 copy()
         {
@@ -24,7 +24,7 @@ class Vector2
             y = 0;
         }
 
-        Vector2(float x, float y)
+        Vector2(double x, double y)
         {
             this->x = x;
             this->y = y;
@@ -43,9 +43,9 @@ class Vector2
 class Camera : public Object
 {
     public:
-        float focalLength;
-        float width;
-        float height;
+        double focalLength;
+        double width;
+        double height;
 
         Plane viewport;
         char screen[29][120];
@@ -150,7 +150,7 @@ class Camera : public Object
         /**
          * @brief Scanline horizontally across two lines, filling in a triangle with the light level char to the screen
          */
-        void drawScreenValuesAcross(Vector2 startLine, Vector2 endLine, float startHeight, float endHeight, char lightLevel)
+        void drawScreenValuesAcross(Vector2 startLine, Vector2 endLine, double startHeight, double endHeight, char lightLevel)
         {
             for (int i = min((int)floor(startHeight), 14); i < max(endHeight, -15); i++)
             {
@@ -179,8 +179,8 @@ class Camera : public Object
          */
         Vector2 getScreenLine(Vector2 p1, Vector2 p2)
         {
-            float m = p2.y != p1.y ? (p2.x - p1.x) / (p2.y - p1.y) : 0;
-            float b = p2.x - m * p1.y;
+            double m = p2.y != p1.y ? (p2.x - p1.x) / (p2.y - p1.y) : 0;
+            double b = p2.x - m * p1.y;
 
             return Vector2(m, b);
         }
